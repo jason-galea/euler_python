@@ -30,4 +30,4 @@ print()
 for x in arr:
     print(x)
 
-print("\nThere are %s total possible paths in this grid.\n" %(arr[0][0]))
+print("\nThere are %s possible paths in this grid.\n" %(arr[0][0]))
