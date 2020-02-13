@@ -19,3 +19,8 @@ tri = [
     , "04 62 98 27 23 09 70 98 73 93 38 53 60 04 23"
 ]
 
+# Format triangle into nested array
+for row in tri:
+    row = str.split(row, " ")
+    print(row)
+
