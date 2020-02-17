@@ -35,7 +35,7 @@ for i in range(2**(len(tri) - 1)) :
     current_chain = []
     current_chain_total = tri[current_row][current_pos]
 
-    # print(current_chain_total, end =" ")
+    print(current_chain_total, end =" ")
     current_chain.append(current_chain_total)
 
     for choice in permutation:
@@ -46,11 +46,11 @@ for i in range(2**(len(tri) - 1)) :
             current_pos += 1
             current_chain_total += tri[current_row][current_pos]
 
-        # print("+", tri[current_row][current_pos], end =" ")
+        print("+", tri[current_row][current_pos], end =" ")
         current_chain.append(tri[current_row][current_pos])
     
     # If value is greater than 'result', result = value
-    # print("=", current_chain_total)
+    print("=", current_chain_total)
     if current_chain_total > largest_path:
         largest_path = current_chain_total
         largest_path_chain = current_chain
