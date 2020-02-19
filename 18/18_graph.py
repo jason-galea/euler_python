@@ -21,6 +21,9 @@ tri = [
 result = 0
 
 graph = Graph()
+
+###### Converting tri[] into a graph ######
+
 graph.addNode(0, 0) # Dummy node above tri
 current_node = 1
 
@@ -31,7 +34,6 @@ for i, row in enumerate(tri):
     if i > 0: # The top row cannot link to anything above it
       if j > 0: # The value furthest left cannot link to top-left
         graph.linkNodes(current_node - len(row), current_node, tri[i][j]) # Link top-left
-        # pass
 
       if j != len(row) - 1: # The value furthest right cannot link to top-right
         graph.linkNodes(current_node - len(row) + 1, current_node, tri[i][j]) # Link top-right
@@ -42,3 +44,6 @@ for i, row in enumerate(tri):
     current_node += 1
 
 graph.print()
+
+###### Dijkstra's Algorithm ######
+

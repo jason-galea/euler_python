@@ -1,6 +1,12 @@
 class Node(object):
   def __init__(self, id, value):
     self.neighbours = []
+    self.visited = False
+    if id != 0:
+      self.dist = "inf"
+    else:
+      self.dist = 0
+
     self.id = id
     self.value = value
 
