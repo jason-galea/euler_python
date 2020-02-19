@@ -1,0 +1,26 @@
+
+[
+    [0],
+    
+    [1 (75)],
+    [2 (95), 3 (64)],
+    [4 (17), 5 (47), 6 (82)],
+    [7 (18), 8 (35), 9 (87), 10 (10)]
+]
+
+Node 0 (0) has links: [[1, 75]]
+
+Node 1 (75) has links: [[2, 95], [3, 64]]
+
+Node 2 (95) has links: [[4, 17], [5, 47]]
+Node 3 (64) has links: [[5, 47], [6, 82]]
+
+Node 4 (17) has links: [[7, 18], [8, 35]]
+Node 5 (47) has links: [[8, 35], [9, 87]]
+Node 6 (82) has links: [[9, 87], [10, 10]]
+
+Node 7 (18) has links: []
+Node 8 (35) has links: []
+Node 9 (87) has links: []
+Node 10 (10) has links: []
+
