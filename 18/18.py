@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from functions import *
+# from functions import *
 
 tri = [
                              [75],
