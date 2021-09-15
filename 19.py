@@ -16,4 +16,12 @@ from functions import *
 # How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
 
 
+
 ### Pseudo-code
+current_date = 0 # Sunday = 6
+
+current_day = 1
+current_month = 0
+current_year = 1900
+
+# 
