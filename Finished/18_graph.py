@@ -1,5 +1,41 @@
 #!/usr/bin/env python3
-from graph import Graph
+
+class Graph(object):
+  def __init__(self):
+    self.nodes = []
+
+  def addNode(self, id, value):
+    new_node = Node(id, value) # Eg, the first node's ID = 0
+
+    self.nodes.append(new_node)
+    # return new_node.id
+
+  def linkNodes(self, n1, n2, cost):
+    self.nodes[n1].addNeighbour(n2, cost)
+
+  def print(self):
+    for i in self.nodes:
+      i.printNeighbours()
+    # print(self.nodes)
+
+class Node(object):
+  def __init__(self, id, value):
+    self.neighbours = []
+    self.visited = False
+    if id != 0:
+      self.dist = "inf"
+    else:
+      self.dist = 0
+
+    self.id = id
+    self.value = value
+
+  def addNeighbour(self, id, cost):
+    self.neighbours.append([id, cost])
+    # print("Node", self.id, "added neighbour", id, "with cost", cost)
+
+  def printNeighbours(self):
+    print("Node %i (%i) has links: %s" %(self.id, self.value, self.neighbours))
         
 tri = [
   [75],

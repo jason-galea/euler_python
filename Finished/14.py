@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
-from functions import *
 
+def collatz(i):		# Accepts int, yields collatz sequence starting from 'i'
+	yield i
+	while True:
+		if i % 2 == 0:
+			i /= 2
+		else:
+			i = (i * 3) + 1
+		yield int(i)
+
+		if i == 1:
+			break
+		
 result = 0
 
 for x in range(1, 1000000):

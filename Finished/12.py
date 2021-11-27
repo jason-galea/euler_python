@@ -1,5 +1,23 @@
 #!/usr/bin/env python3
-from functions import *
+
+def triangles(i):	# Accepts int, yields all triangle numbers below and including 'i'
+	result = 0
+	for x in range(0, i):
+		result += x
+		if result <= i:
+			yield result
+
+def factors(i):		# Accepts int, yields all factors of 'i', including 1 and 'i'
+	result = []
+	for x in range(1, int(i**(1/2) + 1)):
+		if i % x == 0:
+			if x != i**(1/2):
+				result.append(x)
+			result.append(int(i / x))
+	result.sort()
+
+	for x in result:
+		yield x
 
 threshold = 500
 

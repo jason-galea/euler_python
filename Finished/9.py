@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from functions import *
 
 # loop 1000 -> 0 as b
 	# loop b -> 0 as a
@@ -10,7 +9,7 @@ from functions import *
 for b in range(1000, 0, -1):
 	for a in range(b, 0, -1):
 		c = a**2 + b**2
-		if int(sqrt(c) + 0.5)**2 == c and a + b + c**(1/2) == 1000:
+		if int(c**(1/2) + 0.5)**2 == c and a + b + c**(1/2) == 1000:
 			c = int(c**(1/2))
 			print("%i + %i + %i = 1000" %(a, b, c))
 			print("Product ABC =", a*b*c)

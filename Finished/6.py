@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from functions import *
 
 sum = 0
 sum_of_squares = 0

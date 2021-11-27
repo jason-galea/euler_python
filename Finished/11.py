@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from functions import *
 
 grid = [
 	[8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
@@ -36,6 +35,7 @@ for row in range(0, len(grid)):
 			#print("%i *(%i RIGHT) = %i" %(grid[row][col], adj, temp))
 			if temp >= result:
 				result = temp
+				
 		if row <= len(grid) - adj:	# Check down
 			temp = grid[row][col]
 			for x in range(1, adj):	# 1, 2, 3
@@ -44,6 +44,7 @@ for row in range(0, len(grid)):
 			#print("%i *(%i DOWN) = %i" %(grid[row][col], adj, temp))
 			if temp >= result:
 				result = temp
+
 		if (col <= len(grid[row]) - adj) and (row <= len(grid) - adj): # Check down-right
 			temp = grid[row][col]
 			for x in range(1, adj):	# 1, 2, 3
@@ -52,6 +53,7 @@ for row in range(0, len(grid)):
 			#print("%i *(%i DIAGONALLY) = %i" %(grid[row][col], adj, temp))
 			if temp >= result:
 				result = temp
+
 		if (col >= adj - 1) and (row <= len(grid) - adj): # Check down-left
 			temp = grid[row][col]
 			for x in range(1, adj):	# 1, 2, 3

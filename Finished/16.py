@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from functions import *
 
 n = int(input("\nEnter n: "))
 digits = 2**n

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from functions import *
 
 # Recieve size of array 
 size = int(input("\nEnter the size of the square array: ")) + 1

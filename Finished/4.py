@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-from functions import *
+
+def rev_str(s):
+	return ''.join(reversed(s))
 
 # Looping from 999 -> 100
 	# Looping from x --> 100

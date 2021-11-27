@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from functions import *
 
 for x in range(10**8, 10**9, 20):
 	result = 0
