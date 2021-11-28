@@ -1,5 +1,3 @@
-...
-
 def sqrt(i):
 	return i**(1/2)
 
