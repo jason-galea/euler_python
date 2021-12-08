@@ -1,0 +1,7 @@
+arr = [0,1,2]
+
+
+
+ For arr[0] # 0
+    save arr[0]
+    iterate over [1,2]
