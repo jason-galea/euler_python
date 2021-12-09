@@ -7,28 +7,40 @@
 
 # What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 
-def getLPRecursive(outputArray, inputArray): # Expects ordered array of n digits
-    result = []
-    for i in inputArray: # [0,1,2]
-        digitBank = inputArray.copy()
-        newOutputArray = outputArray.copy()
-        
-        if (len(inputArray) == 1): # Then final iteration
-            newOutputArray.append(i)
-            return newOutputArray
 
-        newOutputArray.append(i) # Potential outputs for 1st iteration = [0,x,x]
+def getLPRecursive(input, output="", result=[]): # Expects ordered array of n digits
+    # Annoying verbosity
+    # l = len(result)
+    # if (l % 100000 == 0):
+    #     print(f"len(result) = {l}")
+    #     if (l >= 1000000):
+    #         print(f"1000000th permutation is: {result[999999]}")
+    #         exit(0)
+
+    # Main loop
+    for i in input: # [0,1,2]
+        digitBank = input.copy()
+        # newOutput = output.copy() # TODO: Can this be removed?
+        newOutput = output
+        
+        # TODO: Can this be moved outside the loop?
+        if (len(input) == 1): # Then final iteration
+            # newOutput.append(i)
+            newOutput += str(i)
+            result.append(newOutput)
+            break
+
+        # newOutput.append(i) # Potential outputs for 1st iteration = [0,x,x]
+        newOutput += str(i)
         digitBank.remove(i) # [0,1,2] --> [1,2]
 
-        result.append(getLPRecursive(newOutputArray, digitBank)) # Recurse
-        # 2nd iteration:    getLPRecursive([0], [1,2])
-        # 3rd iteration:    getLPRecursive([0,1], [2])
-    return result # Return once, after all recursion
+        getLPRecursive(digitBank, newOutput, result)
+    return result
 
-def getLPStatic(inputArray): # Expects ordered array of 3 digits
+def getLPStatic(input): # Expects ordered array of 3 digits
     result = []
-    for i in inputArray: # [0,1,2]
-        iDigitBank = inputArray.copy()
+    for i in input: # [0,1,2]
+        iDigitBank = input.copy()
 
         iOutput = []
         iOutput.append(i) # Potential outputs for this iteration = [0,x,x]
@@ -59,11 +71,13 @@ def getLPStatic(inputArray): # Expects ordered array of 3 digits
 
 def main():
     # result = getLPStatic([0,1,2])
-    result = getLPRecursive([], [0,1,2])
+    # result = getLPRecursive([0,1,2], [], "")
+    # result = getLPRecursive([], "", [0,1,2])
+    result = getLPRecursive([0,1,2])
     print(result)
 
-    # result = getLPRecursive([0,1,2,3,4,5,6,7,8,9])
-    # print(result[1000000])
+    # result = getLPRecursive([], 0, "", [0,1,2,3,4,5,6,7,8,9])
+    # print(result[999999])
 
 if __name__ == "__main__":
     main()
