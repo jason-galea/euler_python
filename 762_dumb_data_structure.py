@@ -1,122 +1,92 @@
 # https://projecteuler.net/problem=762
 # https://www.mail-archive.com/chat@forums.jsoftware.com/msg03978.html
 
-def C_bloated(divisions):
-    possibleGrids = [[]] * divisions
-    possibleGrids[0] = [ # All NEWLY possible grids for C(0)
-            [ # One possible grid for C(0)
-                "1000"
-                # ,"1100"
-            ]
-        ]
+def printGrid(grid): # ["1000", "1100"]
+    out = [""] * 4
     
-    uniqueGrids = 0
+    # Unwrap
+    for row in grid:
+        for i in range(4):
+            out[i] += row[i] 
 
-    ### Find all possible grids for current division limit 'n'
-    for n in range(divisions):
-
-        # For each grid in C(n), find NEWLY possible divisions
-        for gi, grid in enumerate(possibleGrids[n]): # Eg ["1000"] for C(0)
-            # tempGrid = grid.copy()
-            # tempGrid.append("0000")
-            grid.append("0000") # Eg ["1000", "0000"]
-
-            # For each row in grid
-            for ri, row in enumerate(grid): # Eg "1000"
-
-                # For each amoeba in row, test subsequent amoeba positions
-                for ci, char in enumerate(row): # Eg "1"
-
-                    # TODO: If char part of 2nd last row, final row is empty and will always succeed
-                    # if (ri == len(grid) - 2):
-                    #     pass
-
-                    # If both subsequent amoebas are valid, save grid
-                    if (
-                        (char == "1") # Char is amoeba
-                        and ((grid[ri + 1][ci]) != "1")
-                        and ((grid[ri + 1][(ci + 1) % 4]) != "1")
-                    ):
-                        # "1000" # row[ci] = row[0..3]
-                        # "?000" # grid[ri + 1][ci]
-
-                        # "1000" # row[ci] = row[0..3]
-                        # "0?00" # grid[ri + 1][(ci + 1) % 4]
-
-                        tempGrid = grid.copy()
-                        tempList = list(tempGrid[ri + 1]) # "0000" --> ["0", "0", "0", "0"]
-
-                        tempList[ci] = "1"
-                        tempList[ci + 1] = "1"
-
-                        tempGrid[ri + 1] = "".join(tempList)
-                        possibleGrids[n+1].append(tempGrid)
-                        # FIXME: Use tempGrid for the entire grid loop
-                        # grid.append("0000") fucks it all up
-
-
-
-    ### De-duplicate possible grids
-    pass
-
-    print(possibleGrids)
-    # print(uniqueGrids)
+    # Print horizontally, as shown on https://projecteuler.net/problem=762
+    # print(f"Printing grid...")
+    print()
+    for i in range(3, -1, -1):
+        print(out[i])
 
 def createPossibleGrid(baseGrid, ri, ci):
     # Accepts grid + coordinates for amoeba with known possible division positions
-    newPossibleGrid = baseGrid.copy()
+    newGrid = baseGrid.copy()
+    finalRowIndex = len(newGrid) - 1
 
-    # TODO: If final row, add new final row
-    if ():
-        pass
+    if (ri == finalRowIndex):
+        newGrid.append("0000")
     
-    # TODO: Modify existing row
-    pass
+    # Modify existing row ri + 1
+    newRow = [char for char in newGrid[ri + 1]] # Eg ["0", "0", "0", "0"]
+    newRow[ci] = "1"
+    newRow[(ci + 1) % 4] = "1"
+    newGrid[ri + 1] = "".join(newRow)
 
-    return newPossibleGrid
+    return newGrid
 
 def C(n):
-    possibleGridsPerDivision = [[]] * (n + 1) # Container for all possibilities per division
-    possibleGridsPerDivision[0] = [ # All NEWLY possible grids for C(n)
-            [ # Pre-populate C(0)
-                "1000"
-            ]
+    # n -= 1
+    possibleGridsPerN = [[ # All NEWLY possible grids for C(n)
+        [ # Pre-populate C(0)
+            "1000"
         ]
-    
-    uniqueGrids = 0
+    ]]
+    uniqueGrids = set()
+    # uniqueGrids.add("".join(possibleGridsPerN[0][0]))
+    # This ^^^ string conversion is a horrific workaround
+    # until I store the grids as immutable objects
 
-    for i in range(1, n + 1):
-        # Copy all possible grids from C(n - 1)
-        possibleGridsPerDivision[i] = possibleGridsPerDivision[i - 1].copy()
 
-        for grid in possibleGridsPerDivision[i]: # ["1000", ""]
+    ### Find all possible grids for C(n)
+    for i in range(1, n + 1): # n == i, effectively
 
-            # For each grid, find all new possible grids 
+        # Prepare container for possible grids of C(n)
+        possibleGridsPerN.append([])
+
+        # For each grid in C(n - 1), find all new possible grids 
+        for grid in possibleGridsPerN[i - 1]: # ["1000", ""]
             for ri, row in enumerate(grid): # "1000"
                 for ci, char in enumerate(row): # "1"
                     if (char != "1"): continue # If not amoeba break condition
 
                     # If amoeba in final row, new grid found
                     if (ri == len(grid) - 1):
-                        # possibleGridsPerDivision[i].append(createPossibleGrid(grid, ri, ci))
-                        newRow = "0000"
-                        newRow[ci] = "1"
-                        newRow[ci + 1] = "1"
-                        possibleGridsPerDivision.append(grid.copy().append(newRow))
+                        newGrid = createPossibleGrid(grid, ri, ci)
+
+                        possibleGridsPerN[i].append(newGrid)
+                        # uniqueGrids.add("".join(newGrid))
+
+                        continue
 
                     # If subsequent amoeba positions are possible, new grid found
-                    if (grid[ri + 1][ci] == "0") and (grid[ri + 1][ci + 1] == "0"):
-                        # possibleGridsPerDivision[i].append(createPossibleGrid(grid, ri, ci))
-                        newGrid = grid.copy()
-                        newGrid[ri + 1][ci] = "1"
-                        newGrid[ri + 1][ci + 1] = "1"
-                        possibleGridsPerDivision.append(newGrid)
+                    if (grid[ri + 1][ci] == "0") and (grid[ri + 1][(ci + 1) % 4] == "0"):
+                        newGrid = createPossibleGrid(grid, ri, ci)
 
-        pass
+                        possibleGridsPerN[i].append(newGrid)
+                        # uniqueGrids.add("".join(newGrid))
+
+                        continue
+
+    ### Find all unique grids for C(n)
+    for grid in possibleGridsPerN[n]:
+        uniqueGrids.add("".join(grid))
+        printGrid(grid)
+
+    print(f"\nC({n}) = {len(uniqueGrids)}\n")
 
 if __name__ == "__main__":
-    C(2)
-    # C(10)
+    # C(1)
+    # C(2)
+    # C(5)
+    C(10)
+    # C(11)
     # C(20)
     # C(100)
     # C(100000)
