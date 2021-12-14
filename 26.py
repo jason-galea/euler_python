@@ -10,13 +10,6 @@ def main(n1, n2):
         nonRecurringChars = ""
         charBank = f
 
-        # If recurring
-        # if not (lenF >= 8): # This is really stupid, but it works
-        #     continue
-        # else:
-        #     print(f"1/{i} = 0.{f}")
-
-
         ### 
         breakLoop = False
         for char in f: # Eg: 
@@ -28,11 +21,9 @@ def main(n1, n2):
                 lenPatternToCheck = len(patternToCheck)
                 possiblePatternLooped = (patternToCheck * (int(lenF / lenPatternToCheck + 1)))[:len(charBank)]
 
-                # print(f"\n{nonRecurringChars} + {possiblePatternLooped} == {nonRecurringChars} + {f[lenPatternToCheck:]}")
-                # if ((nonRecurringChars + possiblePatternLooped) == (nonRecurringChars + f[lenPatternToCheck:])):
                 # print(f"\n{nonRecurringChars} + {possiblePatternLooped} == {f}")
                 if ((nonRecurringChars + possiblePatternLooped == f)
-                    and (lenPatternToCheck != len(possiblePatternLooped)) # Ignore false positives
+                    and (lenPatternToCheck < (len(f)/2)) # Ignore false positives
                 ):
                     # New recurring pattern found, store
                     print(f"1/{i} = 0.{nonRecurringChars}({patternToCheck})")
