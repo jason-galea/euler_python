@@ -1,46 +1,62 @@
 def main(n1, n2):
+    longestPattern = ""
+    longestPatternI = ""
+    longestPatternString = ""
+
     for i in range(n1, n2): # Eg: 6
         # Find fraction
         f = str(1/i)[2:] # Eg: "0.166666666666"
         lenF = len(f)
-        longestPattern = ""
         nonRecurringChars = ""
         charBank = f
 
         # If recurring
-        if not (lenF >= 8): continue
+        # if not (lenF >= 8): # This is really stupid, but it works
+        #     continue
+        # else:
+        #     print(f"1/{i} = 0.{f}")
 
 
         ### 
+        breakLoop = False
         for char in f: # Eg: 
 
             # Check pattern
             patternToCheck = ""
-            breakLoop = False
             for char2 in charBank:
                 patternToCheck += char2
-                lenPossiblePattern = len(patternToCheck)
-                possiblePatternLooped = (patternToCheck * (int(lenF / lenPossiblePattern + 1)))[:len(charBank)]
+                lenPatternToCheck = len(patternToCheck)
+                possiblePatternLooped = (patternToCheck * (int(lenF / lenPatternToCheck + 1)))[:len(charBank)]
 
-                # print(f"\n{nonRecurringChars} + {possiblePatternLooped} == {nonRecurringChars} + {f[lenPossiblePattern:]}")
-                # if ((nonRecurringChars + possiblePatternLooped) == (nonRecurringChars + f[lenPossiblePattern:])):
+                # print(f"\n{nonRecurringChars} + {possiblePatternLooped} == {nonRecurringChars} + {f[lenPatternToCheck:]}")
+                # if ((nonRecurringChars + possiblePatternLooped) == (nonRecurringChars + f[lenPatternToCheck:])):
                 # print(f"\n{nonRecurringChars} + {possiblePatternLooped} == {f}")
-                if ((nonRecurringChars + possiblePatternLooped) == f):
+                if ((nonRecurringChars + possiblePatternLooped == f)
+                    and (lenPatternToCheck != len(possiblePatternLooped)) # Ignore false positives
+                ):
                     # New recurring pattern found, store
-                    print(f"SUCCESS: 0.{f} = 0.{nonRecurringChars}({patternToCheck})")
-                    longestPattern = patternToCheck
+                    print(f"1/{i} = 0.{nonRecurringChars}({patternToCheck})")
+                    if (lenPatternToCheck > len(longestPattern)):
+                        longestPattern = patternToCheck
+                        longestPatternI = i
+                        longestPatternString = f"0.{nonRecurringChars}({patternToCheck})"
                     breakLoop = True # The first pattern found is the only valid one, break both loops once found
                     break
 
                 # print(f"{f} = 0.{nonRecurringChars}({patternToCheck})?")
-            
+                
             if (breakLoop): break
 
-            ### Move character from START of charBank to END of nonRecurringChars
             # "1" <-- "666"
             # "16" <-- "66"
             nonRecurringChars += charBank[:1]
             charBank = charBank[1:]
+
+        # If no pattern found
+        if  not breakLoop:
+            print(f"1/{i} = 0.{f}")
+
+    print(f"\n1/{longestPatternI} had the longest recurring pattern: {longestPatternString}")
 
 
 def main_better_but_still_broken(n1, n2):
@@ -62,8 +78,8 @@ def main_better_but_still_broken(n1, n2):
             # For every digit in the f
             for ci, char in enumerate(f):
                 possiblePattern += char
-                lenPossiblePattern = len(possiblePattern)
-                possiblePatternLooped = (possiblePattern * (int(lenF / lenPossiblePattern + 1)))[:lenF]
+                lenPatternToCheck = len(possiblePattern)
+                possiblePatternLooped = (possiblePattern * (int(lenF / lenPatternToCheck + 1)))[:lenF]
 
                 # "166666" --> char --> Eg. "1"
                 # Check if "1" * lenF == f
@@ -76,13 +92,13 @@ def main_better_but_still_broken(n1, n2):
                     if (longestPattern == ""): # Avoids /0 in the elif
                         longestPattern = possiblePattern
                     elif (
-                        (lenPossiblePattern > len(longestPattern)) # Wait, doesn't this ALWAYS succeed?
+                        (lenPatternToCheck > len(longestPattern)) # Wait, doesn't this ALWAYS succeed?
                         and (possiblePattern != (longestPattern * int(len(possiblePattern)/ len(longestPattern))))
                     ):
                         longestPattern = possiblePattern
 
                     # Handle 1-digit recurring patterns
-                    if (lenPossiblePattern == 1):
+                    if (lenPatternToCheck == 1):
                         break
 
             digitsNotRecurring += nonRecChar # TODO: Fix
@@ -104,5 +120,5 @@ def main_better_but_still_broken(n1, n2):
 if __name__ == "__main__":
     # main(6, 7)
     # main(7, 8)
-    main(2, 11)
-    # main(2, 1001)
+    # main(2, 10)
+    main(2, 1000)
