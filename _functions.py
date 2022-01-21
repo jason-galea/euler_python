@@ -1,14 +1,16 @@
 def sqrt(i):
 	return i**(1/2)
-
-def rev_str(s):
-	return ''.join(reversed(s))
-
+	
 def is_prime(i):
 	for x in range(2, int(sqrt(i)) + 1):
 		if i % x == 0:
 			return False
 	return True
+
+def rev_str(s):
+	return ''.join(reversed(s))
+
+
 
 def primes(i):		# Accepts int, yields all primes below and including 'i'
 	arr = [True] * (i + 1)
