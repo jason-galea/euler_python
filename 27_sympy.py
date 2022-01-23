@@ -1,3 +1,4 @@
+from sympy import isprime
 
 def yieldModRange(limit): # Yields 1, -1, 2, -2, etc. --> limit
     invert = False
@@ -9,21 +10,12 @@ def yieldModRange(limit): # Yields 1, -1, 2, -2, etc. --> limit
         else:
             yield i
         invert = not invert
-	
-def isPrime(n):
-    if n==2 or n==3: return True # Check 2, 3
-    if n%2==0 or n<2: return False # Check 4, 6, 8, all negative numbers
-    if n<8: return True # Check 5, 7
-    for x in range(3, int(pow(n, 0.5)) + 1, 2): # Only odd numbers > 2
-        if n % x==0:
-            return False
-    return True
  
 def evaluate(a, b): # Returns int of consecutive primes from formula n^2 + an + b
     result = 0
     n = 1
     while True:
-        if isPrime(abs((n * n) + (a * n) + b)):
+        if isprime(abs((n * n) + (a * n) + b)): # is
             result += 1
         else:
             break

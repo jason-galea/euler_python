@@ -1,18 +1,18 @@
 def sqrt(i):
 	return i**(1/2)
 	
-def is_prime(i):
+def isPrime(i):
 	for x in range(2, int(sqrt(i)) + 1):
 		if i % x == 0:
 			return False
 	return True
 
-def rev_str(s):
+def reverseString(s):
 	return ''.join(reversed(s))
 
 
 
-def primes(i):		# Accepts int, yields all primes below and including 'i'
+def yieldPrimes(i):		# Accepts int, yields all yieldPrimes below and including 'i'
 	arr = [True] * (i + 1)
 	for x in range(2,i + 1):
 		if arr[x]:
@@ -21,7 +21,7 @@ def primes(i):		# Accepts int, yields all primes below and including 'i'
 			for y in range(x,i + 1,x):
 				arr[y] = False
 
-def triangles(i):	# Accepts int, yields all triangle numbers below and including 'i'
+def yieldTriangles(i):	# Accepts int, yields all triangle numbers below and including 'i'
 	result = 0
 	for x in range(0, i):
 		result += x
