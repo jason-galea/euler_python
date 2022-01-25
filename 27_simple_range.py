@@ -1,4 +1,6 @@
-	
+from functools import cache
+
+@cache
 def isPrime(n):
     if n==2 or n==3: return True # Check 2, 3
     if n%2==0 or n<2: return False # Check 4, 6, 8, all negative numbers
