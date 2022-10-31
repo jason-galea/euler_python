@@ -22,7 +22,7 @@ def find_sum_of_diagonals(max_grid_size):
 
         if (current_grid_size == max_grid_size):
             # return sum
-            print(f"Sum of diagonal numbers in a grid of size {max_grid_size} == {sum}")
+            print(f"Sum of diagonal numbers in grid of size {max_grid_size} == {sum}")
             exit()
 
         
