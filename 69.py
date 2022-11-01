@@ -18,10 +18,11 @@ def totient(n):
 
     for i in range(2, n):
         # if (n % i == 0):
-        if (n % i != 0):
+        # if (n % i != 0):
+        if (is_relatively_prime(i, n)):
             relative_primes.add(i)
 
-    print(f"relative_primes of {n}: {relative_primes}")
+    print(f"Relative primes of {n} = {relative_primes}")
 
     return len(relative_primes)
 
@@ -46,6 +47,7 @@ def find_maximum_totient_over_n(max_n):
     print(f"n_that_produces_maximum_n_over_totient = {n_that_produces_maximum_n_over_totient}")
 
 if __name__ == "__main__":
-    find_maximum_totient_over_n(10)
+    find_maximum_totient_over_n(6)
+    # find_maximum_totient_over_n(10)
     # find_maximum_totient_over_n(1000)
     # find_maximum_totient_over_n(1000000)
