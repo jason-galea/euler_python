@@ -1,53 +1,74 @@
-def is_a_factor(a, b):
-    return (a % b == 0)
+def is_coprime(a, b): ### Assumes a < b
 
-def is_relatively_prime(a, b):
-    """
-    Returns True if a & b are relatively prime, else returns False.
-    (It is assumed that b == n from totient(), therefore a < b.)
-    """
-    for i in range(2, a + 1):
-        if ( is_a_factor(i, a) and is_a_factor(i, b) ):
+    ### NOTE: Should be iterating through primes here
+    ### NOTE: We're trying
+
+    ### If ANY common factors, return False
+    for i in range(2, a + 1): ### Naive
+        if (a % i == 0) and (b % i == 0):
+            print(f"is_coprime({a}, {b}) == False")
             return False
 
+    print(f"is_coprime({a}, {b}) == True")
     return True
 
-def totient(n):
+def totient(n, debug=False):
 
     relative_primes = {1}
 
-    for i in range(2, n):
-        # if (n % i == 0):
-        # if (n % i != 0):
-        if (is_relatively_prime(i, n)):
+    for i in range(2, n): ### Naive
+        if (is_coprime(i, n)):
             relative_primes.add(i)
 
-    print(f"Relative primes of {n} = {relative_primes}")
+    if (debug): print(f"(n = {n}): relative_primes = {relative_primes}")
 
     return len(relative_primes)
 
-def find_maximum_totient_over_n(max_n):
-    maximum_n_over_totient = 0
-    n_that_produces_maximum_n_over_totient = 0
+def main(limit):
+    ### Find N that produces highest n/φ(n)
+    ### NOTE: AKA: N with most factors at lowest value
 
-    for n in range(2, max_n + 1):
-        current_totient = totient(n)
-        current_n_over_totient = round(n/current_totient, 4)
+    ### TODO: Target N will never be prime
+    ### DONE: Target N will never be odd
 
-        # print(f"φ{n} = {totient(n)}")
-        # print(f"{n}/φ({n}) = {n_over_totient_n(n)}")
-        print(f"{n}/φ({n}) = {current_n_over_totient}")
+    result = 0
+    max_n_on_tn = 0
 
-        if (current_n_over_totient > maximum_n_over_totient):
-            maximum_n_over_totient = current_n_over_totient
-            n_that_produces_maximum_n_over_totient = n
-            # print(f"New maximum n/φ(n) found! {n}/φ({n}) = {current_n_over_totient}")
+    # for n in range(2, limit + 1): ### Naive
+    for n in range(2, limit + 1, 2):
+    # for n in range(0, limit + 1, 10): ### Breaks "limit" < 30
+        
+        # if (is_prime(n)): continue ### TODO
+        if (n % 3 != 0): continue ### All current answers are divisible by three
 
-    print(f"\nmaximum_n_over_totient = {maximum_n_over_totient}")
-    print(f"n_that_produces_maximum_n_over_totient = {n_that_produces_maximum_n_over_totient}")
+        current_t = totient(n)
+        current_n_on_tn = n/current_t
+
+        # print(f"(n = {n}): φ(n) = {current_t}")
+        # print(f"(n = {n}): n/φ(n) = {current_n_on_tn}")
+
+        if (current_n_on_tn > max_n_on_tn):
+            result = n
+            max_n_on_tn = current_n_on_tn
+
+            # print(f"(n = {n}): max_n_on_tn = {max_n_on_tn}")
+            # totient(n, debug=True)
+
+    print(f"\nFor n ≤ {limit}, n/φ(n) produces a maximum at n = {result}")
+    print(f"For n = {result}, n/φ(n) = {max_n_on_tn}")
 
 if __name__ == "__main__":
-    find_maximum_totient_over_n(6)
-    # find_maximum_totient_over_n(10)
-    # find_maximum_totient_over_n(1000)
-    # find_maximum_totient_over_n(1000000)
+
+    ### Best times!!!
+    main(10)        ### 0m00.013s
+    # main(100)       ### 0m00.013s
+    # main(500)       ### 0m00.018s
+    # main(1000)      ### 0m00.053s
+    # main(5000)      ### 0m4.871s
+    # main(10000)     ### 0m39.498s
+    # main(50000)     ### 
+    # main(100000)    ### 
+    # main(500000)    ### 
+
+    ### GOAL
+    # main(1000000)   ### 
