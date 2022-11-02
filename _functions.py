@@ -1,5 +1,10 @@
+
+def reverseString(s):
+	return ''.join(reversed(s))
+
 def sqrt(i):
-	return i**(1/2)
+	# return i**(1/2)
+	return i**0.5
 	
 def isPrime(i):
 	for x in range(2, int(sqrt(i)) + 1):
@@ -7,12 +12,7 @@ def isPrime(i):
 			return False
 	return True
 
-def reverseString(s):
-	return ''.join(reversed(s))
-
-
-
-def yieldPrimes(i):		# Accepts int, yields all yieldPrimes below and including 'i'
+def yieldPrimes(i):	### Accepts int, yields all primes below and including 'i'
 	arr = [True] * (i + 1)
 	for x in range(2,i + 1):
 		if arr[x]:
