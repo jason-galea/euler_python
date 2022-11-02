@@ -1,7 +1,13 @@
 DEBUG = False
 
 def is_a_factor(potential_factor, i):
-    return (i % potential_factor == 0)
+    # return (i % potential_factor == 0)
+
+    result = (i % potential_factor == 0)
+    if (result):
+        print(f"{potential_factor} is a factor of {i}")
+
+    return result
 
 def sqrt(i):
 	return i**0.5
@@ -24,6 +30,7 @@ def yield_primes(i):	### Accepts int, yields all primes below and including 'i'
 				arr[y] = False
 
 def is_coprime(a, b): ### Assumes a < b
+    # print("")
 
     ### If ANY common factors, return False
     ### NOTE: "i" ONLY fails when i is prime
@@ -39,7 +46,7 @@ def is_coprime(a, b): ### Assumes a < b
         # if (a % i == 0) and (b % i == 0):
         if (is_a_factor(i, a)) and (is_a_factor(i, b)):
             # print(f"is_coprime({a}, {b}) == False")
-            # print(f"{i} IS a factor of {a} and {b}")
+            print(f"{i} IS a factor of {a} and {b}")
             return False
 
         # else:
@@ -71,20 +78,24 @@ def main(limit):
     max_n_on_tn = 0
 
     # for n in range(2, limit + 1): ### Naive
-    # for n in range(2, limit + 1, 2):
-    for n in range(10, limit + 1, 10): ### Breaks if (limit < 30)
+    for n in range(2, limit + 1, 2):
+    # for n in range(10, limit + 1, 10): ### Breaks if (limit < 30)
+
+        print(f"\n(n = {n})")
         
         if (is_prime(n)): continue ### TODO
         # if (n % 3 != 0): continue ### This is very janky
         # if (not is_a_factor(3, n)): continue ### This is very janky
         
         current_n_on_tn = n/totient(n)
+        print(f"(n = {n}) current_n_on_tn = {current_n_on_tn}")
+
         if (current_n_on_tn > max_n_on_tn):
             result = n
             max_n_on_tn = current_n_on_tn
 
-            print(f"(n = {n}): max_n_on_tn = {max_n_on_tn}")
-            totient(n, debug=True)
+            # print(f"(n = {n}) max_n_on_tn = {max_n_on_tn}")
+            # totient(n, debug=True)
 
     print(f"\nFor n ≤ {limit}, n/φ(n) produces a maximum at n = {result}")
     print(f"For n = {result}, n/φ(n) = {max_n_on_tn}")
@@ -92,11 +103,11 @@ def main(limit):
 if __name__ == "__main__":
 
     ### Best times!!!
-    # main(10)        ### 0m00.013s
+    main(10)        ### 0m00.013s
     # main(100)       ### 0m00.013s
     # main(500)       ### 0m00.018s
     # main(1000)      ### 0m00.053s
-    main(5000)      ### 0m4.871s
+    # main(5000)      ### 0m4.871s
     # main(10000)     ### 0m39.498s
     # main(50000)     ### 
     # main(100000)    ### 
