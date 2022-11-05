@@ -8,43 +8,27 @@ def yield_primes(i):    ### Accepts int, yields all primes below and including '
             for y in range(x, i + 1, x):
                 arr[y] = False
 
-### TODO: Collapes is_coprime() and factors() into one function 
-def factors(i):        # Accepts int, yields all factors of 'i', including 1 and 'i'
-    result = []
-    sqrt_i = i**0.5 ### Could be a float
-
-    # for x in range(1, int(sqrt_i + 1)): ### Correct behaviour lol
-    for x in range(2, int(sqrt_i + 1)): ### Ignore 1
-        if (i % x == 0):
-
-            result.append(x)
-
-            if (x != sqrt_i): ### Only add matching factor if not square root
-                result.append(i / x)
-
-    result.append(i)
-    return result
-
-### TODO: Collapes is_coprime() and factors() into one function 
 def is_coprime(a, b): ### ### If ANY common factors, return False (Assumes a < b)
     # print(f"==> \tis_coprime({a}, {b})")
 
-    ### Early pass conditions
+    ### Early exits
     if (abs(a - b) == 1): return True ### Consecutive numbers are always coprime
+    if (b % a == 0): return False ### Account for not including 'a' as a factor of itself below
 
-    factors_of_a = factors(a)
-    # print(f"\t\tFactors of {a} = {factors_of_a}")
-    if (len(factors_of_a) == 0): return True ### Ignore if prime
+    sqrt_a = a**0.5 ### Could be a float
 
-    for i in factors_of_a: ### Factors of A (ignoring 1)
+    ### Find & check factors of a
+    for i in range(2, int(sqrt_a + 1)): ### Ignore 1
+        if (a % i == 0):
 
-        # print(f"\t\t\tIs {i} a factor of both {a} and {b}?")
+            if (b % i == 0):
+                # print(f"\t\t\tFalse (common factor {i})")
+                return False
 
-        if (b % i == 0):
-            # print(f"\t\t\tFalse (common factor {i})")
-            return False
-
-
+            if (i != sqrt_a) and (b % (int(a/i)) == 0): ### Check matching factor if not square root
+                # print(f"\t\t\tFalse (common factor {i})")
+                return False
+                    
     # print(f"\t\t\tis_coprime({a}, {b}) == True")
     # print("\t\t\tTrue")
     return True
@@ -120,9 +104,9 @@ if __name__ == "__main__":
     # main(100)       ### 0m00.013s           ### Answer = 30
     # main(500)       ### 0m00.018s           ### Answer = 210
     # main(1000)      ### 0m00.028s           ### Answer = 210
-    # main(5000)      ### 0m00.558           ### Answer = 2310
-    main(10000)     ### 0m02.565s           ### Answer = 2310
-    # main(50000)     ### 1m54.140s           ### Answer = 30030
+    # main(5000)      ### 0m00.152            ### Answer = 2310
+    # main(10000)     ### 0m00.661s           ### Answer = 2310
+    main(50000)     ### 0m27.154s           ### Answer = 30030
     # main(100000)    ### 0m??.???s           ### Answer = ???
     # main(500000)    ### 0m??.???s           ### Answer = ???
 
