@@ -79,12 +79,18 @@ def is_coprime_precompute_all_factors(i, n):
 
 ###################################################################
 ### "MAIN"
-"""
-Find N that produces highest n/φ(n)
-φ(n) is the count of numbers <= n, that are coprime with n
+### Find N that produces highest n/φ(n)
+### φ(n) is the count of numbers <= n, that are coprime with n
+### (AKA, N with most factors and lowest value)
 
-AKA, N with most factors and lowest value
-"""
+### NOTE: The common factors that fail "is_coprime" are ALWAYS* prime (*Are you 100% certain?)
+### IDEA:
+### 1. Get list of all primes < n
+### 2. Iterate over these primes find common factors for n
+### 3. Populate DICT_OF_FACTORS with { n: these (prime) common factors }
+### NOTE: The above assumption assumes the common factor that fails "is_coprime" is ALWAYS prime, 100% of the time.
+### NOTE: One way to handle this assumption is to simply check the "prime common factors" first
+### NOTE: After checking "prime common factors", continue to check ALL common factors
 
 ### Best times!!!
 # LIMIT = 10          ### 0m00.013s, n = 6, n/φ(n) = 3.0
