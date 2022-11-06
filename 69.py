@@ -1,31 +1,26 @@
 def factors(i): ### Accepts int, returns set of factors (excluding 1 and i)
 
-    # print(f"Finding factors of {i}")
-    # set_of_factors = []
     set_of_factors = set()
     sqrt_i = int(i**0.5) ### Ignore floating point
 
     for j in range(2, sqrt_i + 1): ### Ignore 1
         if (i % j == 0):
 
-            # print(f"Found factor of {i}: {j}")
-            # set_of_factors.append(j)
             set_of_factors.add(j)
 
             if (j != sqrt_i): ### Only add matching factor if not square root
-                # print(f"Found factor of {i}: {j}")
-                # set_of_factors.append(int(i / j))
                 set_of_factors.add(int(i / j))
 
     # print(f"Factors of {i} = {set_of_factors}")
     return set_of_factors
 
 def is_coprime_find_factors_first(i, n):
+    # print(f"==> (n = {n})\tThis function calculates the factors of 'i' ({i})")
+
     if (abs(i - n) == 1): return True ### Consecutive numbers are always coprime
     if (n % i == 0): return False ### Account for not including 'a' as a factor of itself below
 
     factors_of_i = factors(i)
-    # print(f"Factors of {i} = {factors_of_i}")
 
     for factor in factors_of_i:
         if (n % factor == 0):
@@ -33,33 +28,30 @@ def is_coprime_find_factors_first(i, n):
 
     return True
 
-def is_coprime_find_and_check_factors(a, b): ### If ANY common factors, return False (Assumes a < b)
-    # print(f"==> \tis_coprime({a}, {b})")
+def is_coprime_find_and_check_factors(i, n): ### If ANY common factors, return False (Assumes a < b)
+    # print(f"==> (n = {n})\tThis function calculates the factors of 'i' ({i})")
 
-    if (abs(a - b) == 1): return True ### Consecutive numbers are always coprime
-    if (b % a == 0): return False ### Account for not including 'a' as a factor of itself below
+    if (abs(i - n) == 1): return True ### Consecutive numbers are always coprime
+    if (n % i == 0): return False ### Account for not including 'a' as a factor of itself below
 
-    sqrt_a = a**0.5 ### Could be a float
+    sqrt_i = i**0.5 ### Could be a float
 
     ### Find & check factors of 'a'
-    for i in range(2, int(sqrt_a + 1)):
-        # print(f"==> \t\t Is {i} a factor?")
+    for j in range(2, int(sqrt_i + 1)):
 
-        if (a % i == 0):
-            # print(f"==> \t\t\t {i} is a factor of {a}")
+        if (i % j == 0):
 
-            if (b % i == 0):
-                # print(f"==> \t\t\t {a} & {b} are not coprime (common factor {i})")
+            if (n % j == 0):
                 return False
 
-            if (i != sqrt_a) and (b % (int(a/i)) == 0): ### Check matching factor if not square root
-                # print(f"==> \t\t\t {a} & {b} are not coprime (common factor {i})")
+            if (j != sqrt_i) and (n % (int(j/i)) == 0): ### Check matching factor if not square root
                 return False
-                    
-    # print(f"==> \t\t\t {a} & {b} ARE coprime (No common factors found)")
+
     return True
 
-def is_coprime_precompute_factors_of_n(i, factors_of_n, n): ### Returns True if 'i' is cleanly divisible by any factor in given set
+def is_coprime_precompute_factors_of_n(i, factors_of_n, n):
+    # print(f"==> (n = {n})\tThis function expects the factors of 'n' ({n}) to be precalculated")
+
     if (abs(i - n) == 1): return True ### Consecutive numbers are always coprime
     if (n % i == 0): return False ### Account for not including 'a' as a factor of itself below
 
@@ -69,45 +61,45 @@ def is_coprime_precompute_factors_of_n(i, factors_of_n, n): ### Returns True if 
 
     return True
 
-def is_coprime_precompute_all_factors(i, n): ### Returns True if 'i' is cleanly divisible by any factor in given set
-    if (abs(i - n) == 1): return True ### Consecutive numbers are always coprime
-    if (n % i == 0): return False ### Account for not including 'a' as a factor of itself below
+def is_coprime_precompute_all_factors(i, n):
+    # print(f"==> (n = {n})\tThis function expects the factors of 'n' ({n}) & 'i' ({i}) to be precalculated")
+
+    if (n - i == 1): return True ### Consecutive numbers are always coprime
+    # if (): return True
+    if (n % i == 0):
+        # print(f"==> (n = {n})\tn ({n}) is divisible by i ({i})")
+        return False ### Account for not including 'a' as a factor of itself below
 
     for factor_of_i in DICT_OF_FACTORS[i]:
         if (factor_of_i in DICT_OF_FACTORS[n]):
+            # print(f"==> (n = {n})\tFound common factor of {n} and {i} = {factor_of_i}")
             return False
 
     return True
 
 ###################################################################
 ### "MAIN"
-### Best times!!!
-LIMIT = 10         ### 0m00.013s           ### Answer = 6
-# LIMIT = 50         ### 0m00.013s           ### Answer = 30
-# LIMIT = 100        ### 0m00.013s           ### Answer = 30
-# LIMIT = 500        ### 0m00.018s           ### Answer = 210
-# LIMIT = 1000      ### 0m00.028s           ### Answer = 210
-# LIMIT = 5000       ### 0m00.152            ### Answer = 2310
-# LIMIT = 10000      ### 0m00.661s           ### Answer = 2310
-# LIMIT = 50000      ### 0m27.154s           ### Answer = 30030 (n/φ(n) = 5.2135)
-# LIMIT = 100000     ### 2m30.528s           ### Answer = 30030
-# LIMIT = 500000     ### 0m??.???s           ### Answer = ???
-
-### GOAL
-# LIMIT = 1000000    ### 0m??.???s           ### Answer = ???
-
-
-### TODO: Compute a set of factors for each 'n'
-### TODO: (Assuming you compute factors for ALL n < LIMIT, including odds), save factors to a dict as { n:set() }
-### This would remove all computation from is_coprime(), allowing for ONLY lookups (of i and n)
-
-
 """
 Find N that produces highest n/φ(n)
 φ(n) is the count of numbers <= n, that are coprime with n
 
 AKA, N with most factors and lowest value
 """
+
+### Best times!!!
+# LIMIT = 10          ### 0m00.013s, n = 6, n/φ(n) = 3.0
+# LIMIT = 50          ### 0m00.013s, n = 30, n/φ(n) = 3.75  
+# LIMIT = 100         ### 0m00.013s, n = 30, n/φ(n) = 3.75
+# LIMIT = 500         ### 0m00.018s, n = ???, n/φ(n) = ???
+# LIMIT = 1000        ### 0m00.028s, n = ???, n/φ(n) = ???
+LIMIT = 5000        ### 0m00.152s, n = ???, n/φ(n) = ???
+# LIMIT = 10000       ### 0m00.661s, n = ???, n/φ(n) = ???
+# LIMIT = 50000       ### 0m27.154s, n = ???, n/φ(n) = ???
+# LIMIT = 100000      ### 2m30.528s, n = ???, n/φ(n) = ???
+# LIMIT = 500000      ### 0m00.013s, n = ???, n/φ(n) = ???
+
+### GOAL
+# LIMIT = 1000000     ### 0m00.013s, n = ???, n/φ(n) = ???
 
 RESULT = 0
 MAX_N_ON_TN = 0
@@ -123,37 +115,40 @@ for n in range(2, LIMIT + 1): ### "Naive", every number. Required for DICT_OF_FA
     ### BEGIN "Find n/φ(n)" LOOP (i) 
     totient = 1
     current_n_on_tn = 0
-    # factors_of_n = factors(n)
-    # DICT_OF_FACTORS.update({ n:factors_of_n })
-    # print(f"Factors of {n} = {factors_of_n}")
+    DICT_OF_FACTORS.update({ n:factors(n) }) ### Only required for "is_coprime_precompute_all_factors()"
+    # print(f"Factors of {n} = {factors(n)}")
+
+    ### Early exit for 
 
     for i in range(2, n): ### Naive, all numbers
     # for i in range(3, n, 2): ### Odd numbers only (coprimes cannot be even)
 
-        if is_coprime_find_factors_first(i, n):
+        # print(f"==> (n = {n})\tis_coprime({i}, {n})")
+        # if is_coprime_find_factors_first(i, n):
         # if is_coprime_find_and_check_factors(i, n):
-        # if is_coprime_precompute_factors_of_n(i, factors_of_n, n):
-        # if is_coprime_precompute_all_factors(i, n):
+        # if is_coprime_precompute_factors_of_n(i, factors(n), n):
+        if is_coprime_precompute_all_factors(i, n):
+            # print(f"==> (n = {n})\tFound coprime of {n}, {i}")
+
             totient += 1
             current_n_on_tn = n / totient
-            # print(f"==> totient({n}): n/φ(n) for current iteration = {current_n_on_tn}")
+            # print(f"==> (n = {n})\tn/φ(n) for current iteration = {current_n_on_tn}")
 
-            # if (current_n_on_tn == MAX_N_ON_TN): print(f"\n==> (n = {n}) matches current best n/φ(n) {MAX_N_ON_TN}")
             if (current_n_on_tn < MAX_N_ON_TN):
-                # print(f"==> totient({n}): n/φ(n) fell below MAX_N_ON_TN ({MAX_N_ON_TN})")
+                # print(f"==> (n = {n})\tn/φ(n) fell below MAX_N_ON_TN ({MAX_N_ON_TN})")
                 break
 
     ### END "Find n/φ(n)" LOOP (i) 
     ####################################################################
 
     # current_n_on_tn = n/totient(n)
-    print(f"\n==> (n = {n}) φ({n}) = {totient}")
+    # print(f"\n==> (n = {n}) φ({n}) = {totient}")
 
     if (current_n_on_tn > MAX_N_ON_TN):
         RESULT = n
         MAX_N_ON_TN = current_n_on_tn
 
-        print(f"==> (n = {n}) New highest n/φ(n) found: {MAX_N_ON_TN}")
+        print(f"==> (n = {n})\t New highest n/φ(n) found: {MAX_N_ON_TN}")
 
 ### END MAIN LOOP (n)
 ####################################################################
