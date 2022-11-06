@@ -38,7 +38,7 @@ def is_coprime_old(a, b): ### If ANY common factors, return False (Assumes a < b
     # print(f"==> \t\t\t {a} & {b} ARE coprime (No common factors found)")
     return True
 
-def is_coprime(i, factors_of_n, n=1): ### Returns True if 'i' is cleanly divisible by any factor in given set
+def is_coprime_old_v2(i, factors_of_n, n=1): ### Returns True if 'i' is cleanly divisible by any factor in given set
     
     ### Early exits
     if (abs(i - n) == 1): return True ### Consecutive numbers are always coprime
@@ -48,9 +48,18 @@ def is_coprime(i, factors_of_n, n=1): ### Returns True if 'i' is cleanly divisib
         if (i % factor == 0):
             return False
 
-    # for factor_of_i in dict_of_factors[i]:
-    #     if (factor_of_i in dict_of_factors[n]):
-    #         return False
+    return True
+
+def is_coprime(i, n): ### Returns True if 'i' is cleanly divisible by any factor in given set
+    
+    ### Early exits
+    if (abs(i - n) == 1): return True ### Consecutive numbers are always coprime
+    if (n % i == 0): return False ### Account for not including 'a' as a factor of itself below
+
+
+    for factor_of_i in DICT_OF_FACTORS[i]:
+        if (factor_of_i in DICT_OF_FACTORS[n]):
+            return False
 
     return True
 
@@ -81,8 +90,8 @@ def factors(i):        # Accepts int, yields all factors of 'i', including 1 and
 # LIMIT = 500        ### 0m00.018s           ### Answer = 210
 # LIMIT = 1000      ### 0m00.028s           ### Answer = 210
 # LIMIT = 5000       ### 0m00.152            ### Answer = 2310
-# LIMIT = 10000      ### 0m00.661s           ### Answer = 2310
-LIMIT = 50000      ### 0m27.154s           ### Answer = 30030 (n/φ(n) = 5.2135)
+LIMIT = 10000      ### 0m00.661s           ### Answer = 2310
+# LIMIT = 50000      ### 0m27.154s           ### Answer = 30030 (n/φ(n) = 5.2135)
 # LIMIT = 100000     ### 2m30.528s           ### Answer = 30030
 # LIMIT = 500000     ### 0m??.???s           ### Answer = ???
 
@@ -103,16 +112,15 @@ AKA, N with most factors and lowest value
 """
 
 RESULT = 0
-global MAX_N_ON_TN
 MAX_N_ON_TN = 0
-
+DICT_OF_FACTORS = {}
 
 ####################################################################
 ### BEGIN MAIN LOOP (n)
-# for n in range(2, LIMIT + 1): ### Naive, all numbers
+for n in range(2, LIMIT + 1): ### "Naive", all numbers
 # for n in range(2, LIMIT + 1, 2): ### Even numbers only (Target N will never be odd/prime)
 # for n in range(10, LIMIT + 1, 10): ### Kind of cheating, incrementing based on previous answers
-for n in range(30, LIMIT + 1, 30): ### Kind of cheating, incrementing based on previous answers
+# for n in range(30, LIMIT + 1, 30): ### Kind of cheating, incrementing based on previous answers
 # for n in range(100000, LIMIT + 1, 30):
 
     # print(f"\n==> (n = {n})")
@@ -130,6 +138,7 @@ for n in range(30, LIMIT + 1, 30): ### Kind of cheating, incrementing based on p
     totient = 1
     current_n_on_tn = 0
     factors_of_n = factors(n)
+    DICT_OF_FACTORS.update({ n:factors_of_n })
     # print(f"Factors of {n} = {factors_of_n}")
 
     # for i in range(2, n): ### Naive, all numbers
@@ -141,7 +150,8 @@ for n in range(30, LIMIT + 1, 30): ### Kind of cheating, incrementing based on p
         #     or (n % i == 0) ### Account for not including 'a' as a factor of itself below (NOTE: Swapped around?)
         #     or is_coprime(i, factors_of_n) ### Run slowest check to last
         # ):
-        if is_coprime(i, factors_of_n, n):
+        if is_coprime_old_v2(i, factors_of_n, n):
+        # if is_coprime(i, n):
             # relative_primes.add(i)
             totient += 1
 
