@@ -64,11 +64,15 @@ def is_coprime_precompute_factors_of_n(i, factors_of_n, n):
 def is_coprime_precompute_all_factors(i, n):
     # print(f"==> (n = {n})\tThis function expects the factors of 'n' ({n}) & 'i' ({i}) to be precalculated")
 
+    ### Easy exits
     if (n - i == 1): return True ### Consecutive numbers are always coprime
-    # if (): return True
+    # for j in [2, 3, 5, 7, 8, 9, 11, 13, 16, 17, 19, 23]:
+    #     if (i % j == 0) and (n % j == 0):
+    #         # print(f"==> (n = {n})\t(EARLY EXIT) Found common factor of {n} and {i} = {j}")
+    #         return False
     if (n % i == 0):
         # print(f"==> (n = {n})\tn ({n}) is divisible by i ({i})")
-        return False ### Account for not including 'a' as a factor of itself below
+        return False
 
     for factor_of_i in DICT_OF_FACTORS[i]:
         if (factor_of_i in DICT_OF_FACTORS[n]):
@@ -83,12 +87,12 @@ def is_coprime_precompute_all_factors(i, n):
 ### φ(n) is the count of numbers <= n, that are coprime with n
 ### (AKA, N with most factors and lowest value)
 
-### NOTE: The common factors that fail "is_coprime" are ALWAYS* prime (*Are you 100% certain?)
 ### IDEA:
+### The common factors that fail "is_coprime" are USUALLY* prime
 ### 1. Get list of all primes < n
 ### 2. Iterate over these primes find common factors for n
 ### 3. Populate DICT_OF_FACTORS with { n: these (prime) common factors }
-### NOTE: The above assumption assumes the common factor that fails "is_coprime" is ALWAYS prime, 100% of the time.
+### NOTE: This assumes the common factor that fails "is_coprime" is ALWAYS prime, 100% of the time.
 ### NOTE: One way to handle this assumption is to simply check the "prime common factors" first
 ### NOTE: After checking "prime common factors", continue to check ALL common factors
 
@@ -124,7 +128,9 @@ for n in range(2, LIMIT + 1): ### "Naive", every number. Required for DICT_OF_FA
     DICT_OF_FACTORS.update({ n:factors(n) }) ### Only required for "is_coprime_precompute_all_factors()"
     # print(f"Factors of {n} = {factors(n)}")
 
-    ### Early exit for 
+    ### Early exit for values of n which will (almost certainly) not result in a high n/φ(n)
+    if (n % 2 != 0): continue
+    # if (n % 2 != 0): continue
 
     for i in range(2, n): ### Naive, all numbers
     # for i in range(3, n, 2): ### Odd numbers only (coprimes cannot be even)
