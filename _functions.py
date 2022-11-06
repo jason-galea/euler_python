@@ -32,16 +32,16 @@ def yieldTriangles(i):    # Accepts int, yields all triangle numbers below and i
             yield result
 
 def factors(i):        # Accepts int, yields all factors of 'i', including 1 and 'i'
-    result = []
+    result = set()
     sqrt_i = i**0.5 ### Could be a float
 
     for x in range(1, int(sqrt_i + 1)):
         if (i % x == 0):
 
-            result.append(x)
+            result.add(x)
 
             if (x != sqrt_i): ### Only add matching factor if not square root
-                result.append(int(i / x))
+                result.add(int(i / x))
 
     result.sort()
 
