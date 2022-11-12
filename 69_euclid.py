@@ -22,12 +22,12 @@ def main(LIMIT):
     # DICT_OF_FACTORS = {}
 
     ### START MAIN LOOP
-    for n in range(2, LIMIT + 1): ### "Naive", all numbers
+    # for n in range(2, LIMIT + 1): ### "Naive", all numbers
     # for n in range(2, LIMIT + 1, 2): ### Even numbers only (Target N will never be odd/prime)
-    # for n in range(10, LIMIT + 1, 10): ### Kind of cheating, incrementing based on previous answers
-    # for n in range(30, LIMIT + 1, 30): ### Kind of cheating, incrementing based on previous answers
+    for n in range(10, LIMIT + 1, 10): ### Kind of cheating
+    # for n in range(30, LIMIT + 1, 30): ### Kind of cheating
     # for n in range(100000, LIMIT + 1, 30):
-        
+
         totient = 1
         current_n_on_tn = 0
 
@@ -58,7 +58,7 @@ def main(LIMIT):
 
     ### END MAIN LOOP
 
-    print(f"\n==> n = {RESULT} produces a maximum n/φ(n) ({MAX_N_ON_TN}) for n ≤ {LIMIT}.")
+    print(f"\n==> n = {RESULT} produces a maximum n/φ(n) of {MAX_N_ON_TN} for n ≤ {LIMIT}.")
 
 
 
