@@ -51,7 +51,7 @@ def is_coprime_euclid_subtract(high, low):
         low = min(diff, low)
 
     ### no return logic yet
-    # print(f"END: gcd({high}, {low})")
+    print(f"END: gcd({high}, {low})")
 
     # print(f"Highest common factor = {gcd(high, low)}")
     return ( gcd(high, low) == 1 )
@@ -66,6 +66,8 @@ def is_coprime_euclid_subtract(high, low):
 LIMIT = 1000
 # LIMIT = 5000
 # LIMIT = 10000
+# LIMIT = 50000
+# LIMIT = 100000
 
 RESULT = 0
 MAX_N_ON_TN = 0
@@ -77,7 +79,7 @@ for n in range(2, LIMIT + 1):
     current_n_on_tn = 0
 
     for i in range(2, n):
-        # print(f"\nAre {n} & {i} coprime?")
+        print(f"\nAre {n} & {i} coprime?")
         if is_coprime_euclid_subtract(n, i):
 
             totient += 1
@@ -94,6 +96,5 @@ for n in range(2, LIMIT + 1):
 
         print(f"==> (n = {n})\t New highest n/φ(n) found: {MAX_N_ON_TN}")
 
-
-
+print(f"\n==> n = {RESULT} produces a maximum n/φ(n) ({MAX_N_ON_TN}) for n ≤ {LIMIT}.")
 ### END MAIN
