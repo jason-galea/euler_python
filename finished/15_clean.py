@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 size = int(input("\nEnter the size of the square array: ")) + 1
 arr = [[0] * size] * size
