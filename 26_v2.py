@@ -99,4 +99,5 @@ if __name__ == "__main__":
     # main(50)
     # main(100)
     # main(500)
-    main(1000)
+    # main(1000)
+    main(10000)
