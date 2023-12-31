@@ -17,8 +17,8 @@ def main(max_denominator: int):
         "pattern_len": 0
     }
 
-    for denominator in range(2, max_denominator + 1):
-    # for denominator in [9998, 9999]:
+    # for denominator in range(2, max_denominator + 1):
+    for denominator in [14]:
         decimal_f: float = 1 / denominator
         decimal_s: str = f"{decimal_f}"[2:][:MAX_LIST_LEN]
         decimal_l: list = list(decimal_s)
@@ -56,48 +56,28 @@ def find_pattern(decimals_l: list) -> None | list:
     if len(decimals_l) < 10:
         return
 
+    ### Combine above loops into one, checking from [0] --> [-1], THEN iterating
+    for i in range(len(decimals_l)):
+        decimals_l_subset = decimals_l[i:]
+        print()
+        print(f"==> DEBUG: {join_list(decimals_l_subset)=}")
 
-    ### Does any SINGLE int recur
-    ### NOTE: Only check if last two X match
-    repeating_ints_gate: int = 2
-    if decimals_l[-repeating_ints_gate:] == decimals_l[-1] * repeating_ints_gate:
+        for ints_from_start_of_list in range(1, MAX_PATTERN_LEN):
+            pattern: list = decimals_l_subset[:ints_from_start_of_list]
 
-        for i_pos, i in enumerate(decimals_l):
-            pattern: list = [i]
-            list_if_matching: list = [i] * (MAX_LIST_LEN - i_pos)
-            list_subset_to_check: list = decimals_l[i_pos:]
+            ### Create list of len len(decimals_l_subset), trying to be efficient
+            # pattern_len_multiplier = int(MAX_LIST_LEN / len(pattern)) + 1
+            # list_if_matching = (pattern * pattern_len_multiplier)[:MAX_LIST_LEN]
+            pattern_len_multiplier: int = int(len(decimals_l_subset) / len(pattern)) + 1
+            list_if_matching: list = (pattern * pattern_len_multiplier)[:len(decimals_l_subset)]
 
-            # print(f"i_pos = {i_pos}")
-            # print(f"i = {i}")
-            # print(f"pattern = {pattern}")
-            # print(f"list_if_matching = {join_list(list_if_matching)}")
-            # print(f"list_subset_to_check = {join_list(list_subset_to_check)}")
+            print(f"pattern = {pattern}")
+            print(f"list_if_matching = {join_list(list_if_matching)}")
+            print(f"decimals_l_subset = {join_list(decimals_l_subset)}")
 
-            if list_if_matching == list_subset_to_check:
+            if list_if_matching == decimals_l_subset:
                 return pattern
 
-
-    ### Does any PATTERN recurr (only starting from [0])
-    ### NOTE: Restrict the length of the pattern to reject overly long matches
-    for ints_from_start_of_list in range(1, MAX_PATTERN_LEN):
-        pattern: list = decimals_l[:ints_from_start_of_list]
-
-        ### Create list of len len(decimals_l), trying to be efficient
-        # pattern_len_multiplier = int(MAX_LIST_LEN / len(pattern)) + 1
-        # list_if_matching = (pattern * pattern_len_multiplier)[:MAX_LIST_LEN]
-        pattern_len_multiplier: int = int(len(decimals_l) / len(pattern)) + 1
-        list_if_matching: list = (pattern * pattern_len_multiplier)[:len(decimals_l)]
-
-        # print(f"pattern = {pattern}")
-        # print(f"list_if_matching = {join_list(list_if_matching)}")
-        # print(f"decimals_l = {join_list(decimals_l)}")
-
-        if list_if_matching == decimals_l:
-            return pattern
-
-
-    ### TODO: Combine above loops into one, checking from [0] --> [-1], THEN iterating
-    ### Could loop over range(len(list)), then remove elements from start of list...
 
 
 def join_list(l: list) -> str:
