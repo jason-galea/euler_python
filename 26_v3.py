@@ -2,11 +2,11 @@
 
 from json import dumps as json_dumps
 
-MAX_LIST_LEN: int = 18 ### Max ints to keep when converting float to list
+# MAX_LIST_LEN: int = 18 ### Max ints to keep when converting float to list
 
-MAX_PATTERN_LEN: int = 15 ### Max pattern length to generate possible matching lists from
-### NOTE: Must be < MAX_LIST_LEN
-### NOTE: MAX_LIST_LEN/2 is too low, MAX_LIST_LEN - 1 is way too high
+# MAX_PATTERN_LEN: int = 15 ### Max pattern length to generate possible matching lists from
+# ### NOTE: Must be < MAX_LIST_LEN
+# ### NOTE: MAX_LIST_LEN/2 is too low, MAX_LIST_LEN - 1 is way too high
 
 def main(max_denominator: int):
     result = {
@@ -17,16 +17,23 @@ def main(max_denominator: int):
         "pattern_len": 0
     }
 
-    # for denominator in range(2, max_denominator + 1):
-    for denominator in [14]:
+    for denominator in range(2, max_denominator + 1):
+    # for denominator in [14]:
         decimal_f: float = 1 / denominator
-        decimal_s: str = f"{decimal_f}"[2:][:MAX_LIST_LEN]
-        decimal_l: list = list(decimal_s)
+        # decimal_s: str = f"{decimal_f}"[2:][:MAX_LIST_LEN]
+        # decimal_s: str = f"{decimal_f}"[2:]
+        # decimal_l: list = list(decimal_s)
+        decimal_l: list = list(f"{decimal_f}"[2:])
+
+        ### Drop the rounding error on long floats
+        if len(decimal_l) > 10:
+            decimal_l = decimal_l[:-1]
+            # _ = decimal_l.pop()
 
         print(f"\n1/{denominator} = {decimal_f}")
-        # print(f"==> DEBUG: denominator \t\t= {denominator}")
-        print(f"==> DEBUG: decimal_f \t\t= {decimal_f}")
-        # print(f"==> DEBUG: decimal_s \t= {decimal_s}")
+        # # print(f"==> DEBUG: denominator \t\t= {denominator}")
+        # print(f"==> DEBUG: decimal_f \t\t= {decimal_f}")
+        # print(f"==> DEBUG: decimal_s \t\t= {decimal_s}")
         print(f"==> DEBUG: decimal_l \t\t= {join_list(decimal_l)}")
         print(f"==> DEBUG: len(decimal_l) \t= {len(decimal_l)}")
 
@@ -39,7 +46,7 @@ def main(max_denominator: int):
                 result = {
                     "denominator": denominator,
                     "decimal_f": decimal_f,
-                    "decimal_s": decimal_s,
+                    "decimal_s": join_list(decimal_l),
                     "pattern_s": join_list(new_pattern),
                     "pattern_len": new_pattern_len
                 }
@@ -59,21 +66,29 @@ def find_pattern(decimals_l: list) -> None | list:
     ### Combine above loops into one, checking from [0] --> [-1], THEN iterating
     for i in range(len(decimals_l)):
         decimals_l_subset = decimals_l[i:]
-        print()
-        print(f"==> DEBUG: {join_list(decimals_l_subset)=}")
+        # print()
+        # print(f"==> DEBUG: decimals_l_subset \t= {join_list(decimals_l_subset)}")
+        # print(f"==> DEBUG: len(decimals_l_subset) \t= {len(decimals_l_subset)}")
 
-        for ints_from_start_of_list in range(1, MAX_PATTERN_LEN):
+        # for ints_from_start_of_list in range(1, MAX_PATTERN_LEN):
+        for ints_from_start_of_list in range(1, len(decimals_l_subset) - 1):
+
+            if ints_from_start_of_list == len(decimals_l_subset):
+                break
+
             pattern: list = decimals_l_subset[:ints_from_start_of_list]
 
             ### Create list of len len(decimals_l_subset), trying to be efficient
             # pattern_len_multiplier = int(MAX_LIST_LEN / len(pattern)) + 1
             # list_if_matching = (pattern * pattern_len_multiplier)[:MAX_LIST_LEN]
             pattern_len_multiplier: int = int(len(decimals_l_subset) / len(pattern)) + 1
+            # print(f"{pattern_len_multiplier=}")
             list_if_matching: list = (pattern * pattern_len_multiplier)[:len(decimals_l_subset)]
 
-            print(f"pattern = {pattern}")
-            print(f"list_if_matching = {join_list(list_if_matching)}")
-            print(f"decimals_l_subset = {join_list(decimals_l_subset)}")
+            # print(f"==> DEBUG: pattern \t\t= {join_list(pattern)}")
+            # print(f"==> DEBUG: list_if_matching \t= {join_list(list_if_matching)}")
+            # print(f"list_if_matching \t= {join_list(list_if_matching)}")
+            # # print(f"decimals_l_subset = {join_list(decimals_l_subset)}")
 
             if list_if_matching == decimals_l_subset:
                 return pattern
@@ -86,8 +101,8 @@ def join_list(l: list) -> str:
 
 if __name__ == "__main__":
     # main(10)
-    main(20)
-    # main(50)
+    # main(20)
+    main(50)
     # main(100)
     # main(500)
     # main(1000)
