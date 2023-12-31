@@ -47,7 +47,7 @@ def main(LIMIT):
                 if (current_n_on_tn < MAX_N_ON_TN):
                     # print(f"==> (n = {n})\tn/φ(n) fell below MAX_N_ON_TN ({MAX_N_ON_TN})")
                     break
-            
+
             # else:
             #     print("FALSE")
 
