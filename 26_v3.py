@@ -30,6 +30,7 @@ def main(max_denominator: int):
             decimal_l = decimal_l[:-1]
             # _ = decimal_l.pop()
 
+
         print(f"\n1/{denominator} = {decimal_f}")
         # # print(f"==> DEBUG: denominator \t\t= {denominator}")
         # print(f"==> DEBUG: decimal_f \t\t= {decimal_f}")
@@ -71,7 +72,8 @@ def find_pattern(decimals_l: list) -> None | list:
         # print(f"==> DEBUG: len(decimals_l_subset) \t= {len(decimals_l_subset)}")
 
         # for ints_from_start_of_list in range(1, MAX_PATTERN_LEN):
-        for ints_from_start_of_list in range(1, len(decimals_l_subset) - 1):
+        leniency_factor = 2
+        for ints_from_start_of_list in range(1, len(decimals_l_subset) - leniency_factor):
 
             if ints_from_start_of_list == len(decimals_l_subset):
                 break
@@ -102,8 +104,8 @@ def join_list(l: list) -> str:
 if __name__ == "__main__":
     # main(10)
     # main(20)
-    main(50)
+    # main(50)
     # main(100)
     # main(500)
-    # main(1000)
+    main(1000)
     # main(10000)
