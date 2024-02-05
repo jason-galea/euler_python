@@ -22,21 +22,12 @@ def main():
         i_digits = list(digitize(i))
         i_digits.reverse()
 
-        # print(f"{i=}")
-        # print(f"{i_digits=}")
-
         total_powers_of_i_digits = 0
         for j in i_digits:
             total_powers_of_i_digits += j**TARGET_POWER
 
-        # print(f"{total_powers_of_i_digits=}")
-
         if i == total_powers_of_i_digits:
             print(f"Success with i = {i}")
-            # print(f"{i=}")
-            # print(f"{i_digits=}")
-            # print(f"{total_powers_of_i_digits=}")
-            # print()
             SUCCESS_LIST.append(i)
 
     print(f"Result = {sum(SUCCESS_LIST)}")
