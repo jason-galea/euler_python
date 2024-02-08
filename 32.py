@@ -143,7 +143,8 @@ def main_single_integers():
 def main():
     pandigital_products = set()
     exit_loop = False
-    product = 1
+    # product = 1
+    product = 3096 ### First pandigital product
 
     while not exit_loop:
         for multiplier in range(2, int(product**0.5) + 1):
@@ -159,10 +160,12 @@ def main():
                     + list(digitize(product))
                 )
 
-                if len(all_digits) >= 10:
-                    exit_loop = True
+                # if len(all_digits) >= 10:
+                #     exit_loop = True
 
-                if len(all_digits) == len(set(all_digits)) == 9:
+                # if len(all_digits) == len(set(all_digits)) == 9:
+                if len(all_digits) == len(set(all_digits)):
+                    print(f"{len(set(all_digits))}")
                     print(f"{multiplicand} x {multiplier} = {product}")
                     pandigital_products.add(product)
 
