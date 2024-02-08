@@ -74,7 +74,7 @@ def get_all_combinations_recursive(
     For 'n', return list of all combinations of 1..n
     """
 
-    print(f"Entered 'get_all_combinations_recursive()'")
+    # print(f"Entered 'get_all_combinations_recursive()'")
     # print(f"{n=}")
     # print(f"{results=}")
     # print(f"{current_set=}")
@@ -83,7 +83,8 @@ def get_all_combinations_recursive(
     if n and not current_set: ### First iteration
         results = []
         current_set = list(range(1, n + 1))
-        current_combination = [current_set[0]]
+        # current_combination = [current_set[0]]
+        current_combination = []
 
     for i_pos, i in enumerate(current_set):
         next_combination = current_combination + [i]
@@ -123,13 +124,13 @@ def main_single_integers():
 
     # print(f"{pandigital_numbers=}")
 
-    # all_combinations_of_int = get_all_combinations(2)
-    # print(f"{all_combinations_of_int=}")
+    all_combinations_of_int = get_all_combinations_recursive(2)
+    print(f"{all_combinations_of_int=}")
     # all_combinations_of_int = get_all_combinations(3)
     all_combinations_of_int = get_all_combinations_recursive(3)
     print(f"{all_combinations_of_int=}")
-    # all_combinations_of_int = get_all_combinations(4)
-    # print(f"{all_combinations_of_int=}")
+    all_combinations_of_int = get_all_combinations_recursive(4)
+    print(f"{all_combinations_of_int=}")
 
 
 def main():
