@@ -20,34 +20,48 @@ def is_pandigital(i):
 
 
 def get_all_combinations(n):
-    result = set()
+    print(f"Entered 'get_all_combinations()'")
+    print(f"{n=}")
+
+    combinations = []
     complete_set = list(range(1, n + 1)) ### [1, 2, 3]
 
-    for i in complete_set:
-        subset_1 = [] ### [?, ?, ?]
-        subset_1.append(i) ### [1, ?, ?]
+    for i_pos, i in enumerate(complete_set): ### 1 --> 2 --> 3
+        subset_1 = [i] ### [i, ?, ?]
+
         print(f"{subset_1=}")
 
         # if...
 
-        ########################### TODO: Reduce set size with each iteration
+        next_subset_1 = complete_set.copy()
+        next_subset_1.pop(i_pos)
+        print(f"{next_subset_1=}")
 
-        for j in subset_1:
-            subset_2 = subset_1 ### [1, ?, ?]
-            subset_2.append(j) ### [1, 2, ?]
+        for j_pos, j in enumerate(next_subset_1): ### 2 --> 3
+            subset_2 = subset_1 + [j] ### [i, j, ?]
+
             print(f"{subset_2=}")
 
             # if...
 
-            for k in subset_2:
-                subset_3 = subset_2 ### [1, 2, ?]
-                subset_3.append(k) ### [1, 2, 3]
+            next_subset_2 = next_subset_1.copy()
+            next_subset_2.pop(j_pos)
+            print(f"{next_subset_2=}")
+
+            for k_pos, k in enumerate(next_subset_2): ### 2 --> 3
+                subset_3 = subset_2 + [k] ### [i, j, k]
                 print(f"{subset_3=}")
 
-                if len(subset_3) == n:
-                    result.update(subset_3)
 
-    return result
+                if len(next_subset_2) == 1:
+                    combinations.append(subset_3)
+                    # continue
+
+                # _next_subset_3 = next_subset_2.copy()
+                # _next_subset_3.pop(k_pos)
+                # print(f"{_next_subset_3=}")
+
+    return combinations
 
 
 def main_single_integers():
