@@ -2,6 +2,10 @@
 
 
 def digitize(n, base=10):
+    """
+    Convert integer 'n' into a list of it's digits.
+    E.G: list(digitize(1234)) --> [1, 2, 3, 4]
+    """
     if n == 0:
         yield 0
     while n:
@@ -109,11 +113,12 @@ def main_single_integers():
     # LIMIT = 100000
     LIMIT = 10**5
 
-    # ### Check if pandigital per int
-    # for i in range(LIMIT):
-    #     if is_pandigital(i):
-    #         print(f"Success with i = {i}")
-    #         pass
+    ### Check if pandigital per int
+    pandigital_numbers = []
+    for i in range(LIMIT):
+        if is_pandigital(i):
+            print(f"Success with i = {i}")
+            pandigital_numbers.append(i)
 
     # ### Pre-calculate all pandigital numbers
     # pandigital_len_limit = len(str(LIMIT)) - 1 ### E.G For 1000, longest pandigital is 3 digits
@@ -122,21 +127,52 @@ def main_single_integers():
     # for i in range(2, pandigital_len_limit + 1):
     #     pandigital_numbers.update(get_all_combinations(i))
 
-    # print(f"{pandigital_numbers=}")
 
-    all_combinations_of_int = get_all_combinations_recursive(2)
-    print(f"{all_combinations_of_int=}")
-    # all_combinations_of_int = get_all_combinations(3)
-    all_combinations_of_int = get_all_combinations_recursive(3)
-    print(f"{all_combinations_of_int=}")
-    all_combinations_of_int = get_all_combinations_recursive(4)
-    print(f"{all_combinations_of_int=}")
+    # all_combinations_of_int = get_all_combinations_recursive(2)
+    # print(f"{all_combinations_of_int=}")
+    # # all_combinations_of_int = get_all_combinations(3)
+    # all_combinations_of_int = get_all_combinations_recursive(3)
+    # print(f"{all_combinations_of_int=}")
+    # all_combinations_of_int = get_all_combinations_recursive(4)
+    # print(f"{all_combinations_of_int=}")
+
+    print(f"{pandigital_numbers=}")
+    # print(f"Sum of all pandigital numbers is: {sum(pandigital_numbers)}")
 
 
 def main():
-    pass
+    pandigital_products = set()
+    exit_loop = False
+    product = 1
+
+    while not exit_loop:
+        for multiplier in range(2, int(product**0.5) + 1):
+
+            multiplicand, remainder = divmod(product, multiplier)
+
+            if remainder == 0:
+                # print(f"{multiplicand} x {multiplier} = {product}")
+
+                all_digits = (
+                    list(digitize(multiplicand))
+                    + list(digitize(multiplier))
+                    + list(digitize(product))
+                )
+
+                if len(all_digits) >= 10:
+                    exit_loop = True
+
+                if len(all_digits) == len(set(all_digits)) == 9:
+                    print(f"{multiplicand} x {multiplier} = {product}")
+                    pandigital_products.add(product)
+
+        product += 1
+
+    print(f"{pandigital_products=}")
+    print(f"Sum of pandigital products is {sum(pandigital_products)}")
+
 
 
 if __name__ == "__main__":
-    # main()
-    main_single_integers()
+    main()
+    # main_single_integers()
