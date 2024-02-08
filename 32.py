@@ -29,39 +29,79 @@ def get_all_combinations(n):
     for i_pos, i in enumerate(complete_set): ### 1 --> 2 --> 3
         subset_1 = [i] ### [i, ?, ?]
 
-        print(f"{subset_1=}")
+        # print(f"{subset_1=}")
 
         # if...
 
         next_subset_1 = complete_set.copy()
         next_subset_1.pop(i_pos)
-        print(f"{next_subset_1=}")
+        # print(f"{next_subset_1=}")
 
         for j_pos, j in enumerate(next_subset_1): ### 2 --> 3
             subset_2 = subset_1 + [j] ### [i, j, ?]
 
-            print(f"{subset_2=}")
+            # print(f"{subset_2=}")
 
             # if...
 
             next_subset_2 = next_subset_1.copy()
             next_subset_2.pop(j_pos)
-            print(f"{next_subset_2=}")
+            # print(f"{next_subset_2=}")
 
             for k_pos, k in enumerate(next_subset_2): ### 2 --> 3
                 subset_3 = subset_2 + [k] ### [i, j, k]
-                print(f"{subset_3=}")
+                # print(f"{subset_3=}")
 
 
                 if len(next_subset_2) == 1:
                     combinations.append(subset_3)
-                    # continue
+                    continue
 
                 # _next_subset_3 = next_subset_2.copy()
                 # _next_subset_3.pop(k_pos)
                 # print(f"{_next_subset_3=}")
 
     return combinations
+
+
+def get_all_combinations_recursive(
+    n=None,
+    results=None,
+    current_set=None,
+    current_combination=None,
+):
+    """
+    For 'n', return list of all combinations of 1..n
+    """
+
+    print(f"Entered 'get_all_combinations_recursive()'")
+    # print(f"{n=}")
+    # print(f"{results=}")
+    # print(f"{current_set=}")
+    # print(f"{current_combination=}")
+
+    if n and not current_set: ### First iteration
+        results = []
+        current_set = list(range(1, n + 1))
+        current_combination = [current_set[0]]
+
+    for i_pos, i in enumerate(current_set):
+        next_combination = current_combination + [i]
+
+        if len(current_set) == 1: ### Last iteration, exit & return
+            results.append(next_combination)
+            continue
+
+        ### Else, next iteration
+        next_set = current_set.copy()
+        next_set.pop(i_pos)
+        results = get_all_combinations_recursive(
+            results=results,
+            current_set=next_set,
+            current_combination=next_combination
+        )
+
+    return results
 
 
 def main_single_integers():
@@ -83,8 +123,13 @@ def main_single_integers():
 
     # print(f"{pandigital_numbers=}")
 
-    all_combinations_of_int = get_all_combinations(3)
+    # all_combinations_of_int = get_all_combinations(2)
+    # print(f"{all_combinations_of_int=}")
+    # all_combinations_of_int = get_all_combinations(3)
+    all_combinations_of_int = get_all_combinations_recursive(3)
     print(f"{all_combinations_of_int=}")
+    # all_combinations_of_int = get_all_combinations(4)
+    # print(f"{all_combinations_of_int=}")
 
 
 def main():
