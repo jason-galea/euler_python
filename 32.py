@@ -30,6 +30,8 @@ def get_all_combinations(n):
 
         # if...
 
+        ########################### TODO: Reduce set size with each iteration
+
         for j in subset_1:
             subset_2 = subset_1 ### [1, ?, ?]
             subset_2.append(j) ### [1, 2, ?]
