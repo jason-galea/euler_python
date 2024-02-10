@@ -96,27 +96,63 @@ def rank_hand(hand):
     else: ### High Card
         print("High Card")
 
-    return {
-        "hand_rank": hand_rank,
-        "highest_cards": highest_cards,
-    }
+    return hand_rank, list(highest_cards)
 
 
 def main():
-    # line = "8C TS KC 9H 4S 7D 2S 5D 3S AC"
-    line = "8C TS KC 9H 4S 7D 2S 5D AD AC"
-    print(f"{line=}")
+    with open("./54_poker.txt", "r", encoding="utf-8") as f:
+        lines = f.read().split("\n")
 
-    ### Extract hands from text
-    hand_1 = extract_hand_from_line(line, 0, 14)
-    hand_2 = extract_hand_from_line(line, 15, 28)
-    # print(hand_1)
-    # print(hand_2)
+    result = [0, 0]
+    # max_lines = 3
+    # current_lines = 1
+    for line in lines:
+        # if current_lines == max_lines:
+        #     break
+
+        # print(f"\n==> INFO: Round {current_lines}")
+
+        ### Extract hands from text
+        hand_1 = extract_hand_from_line(line, 0, 14)
+        hand_2 = extract_hand_from_line(line, 15, 28)
+        # print(hand_1)
+        # print(hand_2)
 
 
-    ### Rank hands
-    rank_hand(hand_1)
-    rank_hand(hand_2)
+        ### Rank hands
+        # print(f"Hand 1: '{line[:14]}'")
+        print(f"'{line[:14]}' -> ", end='')
+        hand_1_rank, hand_1_spares = rank_hand(hand_1)
+
+        # print(f"Hand 2: '{line[15:]}'")
+        print(f"'{line[15:]}' -> ", end='')
+        hand_2_rank, hand_2_spares = rank_hand(hand_2)
+
+
+        ### Decide winner
+        if hand_1_rank == hand_2_rank:
+            # print(f"MATCHING RANKS!!!!!")
+
+            for i in range(len(hand_1_spares)): # pylint: disable=consider-using-enumerate
+                if hand_1_spares[i] != hand_2_spares[i]:
+                    # print(f"{hand_1_spares[i]=}")
+                    # print(f"{hand_2_spares[i]=}")
+
+                    winner = 1 if (hand_1_spares[i] > hand_2_spares[i]) else 2
+                    print(f"Hand {winner} wins!")
+                    break
+
+        else:
+            winner = 1 if (hand_1_rank > hand_2_rank) else 2
+            print(f"Hand {winner} wins!")
+
+        result[winner - 1] += 1
+        print()
+
+    # print(f"Player 1 won {result['1']} hands")
+    # print(f"Player 2 won {result['2']} hands")
+    for i in [1,2]:
+        print(f"Player {i} won {result[i - 1]} hands")
 
 
 if __name__ == "__main__":
