@@ -53,11 +53,10 @@ def combine_list_of_ints(l: list) -> int:
 
 
 def main():
-    digit_limit = 6
+    max_digits = 9
     result_products = set()
 
-    for pandigital_l in get_all_combinations_recursive(digit_limit):
-    # for pandigital_l in [[1,2,3,4], [4,3,2,1]]:
+    for pandigital_l in get_all_combinations_recursive(max_digits):
         # print(f"{pandigital=}")
 
         ### Search for valid "x * y = z" equations within pandigital number
@@ -66,27 +65,25 @@ def main():
         # print(f"{valid_split_indices[:-1]=}")
         # print(f"{valid_split_indices[1:]=}")
 
-        for i in valid_split_indices[:-1]: ### [1,2,3] --> [1,2]
-            for j in valid_split_indices[i:]: ### [1,2,3] --> [2,3]
+        for split_1 in valid_split_indices[:-1]: ### [1,2,3] --> [1,2]
+            for split_2 in valid_split_indices[split_1:]: ### [1,2,3] --> [2,3]
                 # print(f"{i=}")
                 # print(f"{j=}")
 
-                product = combine_list_of_ints(pandigital_l[j:])
+                product = combine_list_of_ints(pandigital_l[split_2:])
 
                 if product in result_products:
                     continue
 
-                multiplicand = combine_list_of_ints(pandigital_l[:i])
-                multiplier = combine_list_of_ints(pandigital_l[i:j])
+                multiplicand = combine_list_of_ints(pandigital_l[:split_1])
+                multiplier = combine_list_of_ints(pandigital_l[split_1:split_2])
 
                 if multiplicand * multiplier == product:
                     print(f"{multiplicand} * {multiplier} == {product}")
                     result_products.add(product)
 
-
-
-    # check_valid_products([1,2,3,4,5])
-    # print(f"{combine_list_of_ints([1,2,3])=}")
+    print(f"{result_products=}")
+    print(f"Sum of products is {sum(result_products)}")
 
 
 if __name__ == "__main__":
