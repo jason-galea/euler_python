@@ -24,64 +24,77 @@ def rank_hand(hand):
     # print(f"{occurrences=}")
 
     ### NOTE: Match highest rank first
-    hand_rank = 0
-    highest_cards = reversed(sorted(values.copy()))
+    hand_rank = 1
+    highest_cards = reversed(sorted(values.copy())) ### Default
 
-    ### Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
-    if (set(values) == {10, 11, 12, 13, 14}) and is_flush:
+    if (set(values) == {10, 11, 12, 13, 14}) and is_flush: ### Royal Flush
         print("Royal Flush")
         hand_rank = 10
 
-    ### Straight Flush: All cards are consecutive values of same suit.
-    elif is_straight and is_flush:
+    elif is_straight and is_flush: ### Straight Flush
         print("Straight Flush")
         hand_rank = 9
 
-    ### Four of a Kind: Four cards of the same value.
-    elif occurrences == [1, 4, 4, 4, 4]:
+    elif occurrences == [1, 4, 4, 4, 4]: ### Four of a Kind:
         print("Four of a Kind")
         hand_rank = 8
 
         ### NOTE: Prioritise value of the 4 matching cards
         highest_cards = sorted(set(values)) ### E.G: [6,9]
 
-    ### Full House: Three of a kind and a pair.
-    elif occurrences == [2, 2, 3, 3, 3]:
+    elif occurrences == [2, 2, 3, 3, 3]: ### Full House
         print("Full House")
         hand_rank = 7
 
-    ### Flush: All cards of the same suit.
-    elif is_flush:
+    elif is_flush: ### Flush
         print("Flush")
         hand_rank = 6
 
-    ### Straight: All cards are consecutive values.
-    elif is_straight:
+    elif is_straight: ### Straight
         print("Straight")
         hand_rank = 5
 
-    ### Three of a Kind: Three cards of the same value.
-    elif occurrences == [1, 1, 3, 3, 3]:
+    elif occurrences == [1, 1, 3, 3, 3]: ### Three of a Kind
         print("Three of a Kind")
         hand_rank = 4
-        highest_cards = [] ### TODO: Order 3-of-a-kind, then others
 
-    ### Two Pairs: Two different pairs.
-    elif occurrences == [1, 2, 2, 2, 2]:
+        for i in values:
+            if values.count(i) == 3:
+                three_of_a_kind_val = i
+                break
+
+        highest_cards = (
+            sorted(filter((three_of_a_kind_val).__eq__, values))
+            + sorted(filter((three_of_a_kind_val).__ne__, values))
+        )
+
+    elif occurrences == [1, 2, 2, 2, 2]: ### Two Pairs
         print("Two Pairs")
         hand_rank = 3
-        highest_cards = [] ### TODO: Order high pair, then low pair, then others
 
-    ### One Pair: Two cards of the same value.
-    elif occurrences == [1, 1, 1, 2, 2]:
+        ### I hate this
+        pair_values = [i for i in values if (values.count(i) == 2)]
+        highest_cards = (
+            sorted(pair_values)
+            + [i for i in values if (i not in pair_values)] ### Unsorted because len() == 1
+        )
+
+    elif occurrences == [1, 1, 1, 2, 2]: ### One Pair
         print("One Pair")
         hand_rank = 2
-        highest_cards = [] ### TODO
 
-    else:
-        ### High Card: Highest value card.
+        for i in values:
+            if values.count(i) == 3:
+                one_pair_val = i
+                break
+
+        highest_cards = (
+            sorted(filter((one_pair_val).__eq__, values))
+            + sorted(filter((one_pair_val).__ne__, values))
+        )
+
+    else: ### High Card
         print("High Card")
-        hand_rank = 1
 
     return {
         "hand_rank": hand_rank,
