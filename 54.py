@@ -84,7 +84,7 @@ def rank_hand(hand):
         hand_rank = 2
 
         for i in values:
-            if values.count(i) == 3:
+            if values.count(i) == 2:
                 one_pair_val = i
                 break
 
