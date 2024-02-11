@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 
-
 CARD_VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
 CARD_SUITS = ['C', 'D', 'H', 'S']
-
 
 def extract_hand_from_line(line, begin_i, end_i):
     return [
@@ -11,30 +9,25 @@ def extract_hand_from_line(line, begin_i, end_i):
         for i in range(begin_i, end_i, 3)
     ]
 
-
 def find_value_with_count(values, count):
     for i in values:
         if values.count(i) == count:
             return i
 
-
 def rank_hand(hand):
     values = list(sorted([card[0] for card in hand])) ### Value order does NOT need to match suit order
     suits = [card[1] for card in hand]
 
-    ### Shortcuts
     is_straight = all([ (val - i == values[0]) for i, val in enumerate(values) ])
     is_flush = len(set(suits)) == 1
     occurrences = sorted([values.count(i) for i in values])
 
-    ### Handle aces-low straights
-    if set(values) == {14, 2, 3, 4, 5}:
+    if set(values) == {14, 2, 3, 4, 5}: ### Handle aces-low straights
         is_straight = True
         values = [1 if (i == 14) else i for i in values] ### Replace 14 with 1
 
-    ### NOTE: Match highest rank first
-    hand_rank = 1
-    tiebreaker_cards = list(reversed(sorted(values.copy()))) ### Default
+    hand_rank = 1 ### NOTE: Match highest rank first
+    tiebreaker_cards = list(reversed(sorted(values.copy())))
 
     if (set(values) == {10, 11, 12, 13, 14}) and is_flush: ### Royal Flush
         hand_rank = 10
@@ -78,7 +71,6 @@ def rank_hand(hand):
 
     return hand_rank, list(tiebreaker_cards)
 
-
 def main():
     player_1_wins = 0
 
@@ -102,7 +94,6 @@ def main():
             player_1_wins += 1
 
     print(f"Player 1 won {player_1_wins} hands")
-
 
 if __name__ == "__main__":
     main()
