@@ -22,9 +22,9 @@ def rank_hand(hand):
     is_flush = len(set(suits)) == 1
     occurrences = sorted([values.count(i) for i in values])
 
-    if set(values) == {14, 2, 3, 4, 5}: ### Handle aces-low straights
+    if values == [2, 3, 4, 5, 14]: ### Handle aces-low straights
         is_straight = True
-        values = [1 if (i == 14) else i for i in values] ### Replace 14 with 1
+        values = [1] + values[:-1] ### Replace 14 with 1, maintaining order
 
     hand_rank = 1 ### NOTE: Match highest rank first
     tiebreaker_cards = list(reversed(sorted(values.copy())))
