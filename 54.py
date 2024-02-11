@@ -37,10 +37,13 @@ def rank_hand(hand):
         is_straight = True
         values = [1 if (i == 14) else i for i in values] ### Replace 14 with 1
 
+    # if is_straight:
+    #     print("STRAIGHT DETECTED")
+
 
     ### NOTE: Match highest rank first
     hand_rank = 1
-    tiebreaker_cards = reversed(sorted(values.copy())) ### Default
+    tiebreaker_cards = list(reversed(sorted(values.copy()))) ### Default
 
     if (set(values) == {10, 11, 12, 13, 14}) and is_flush: ### Royal Flush
         print("Royal Flush")
@@ -83,7 +86,7 @@ def rank_hand(hand):
         three_count_val = find_value_with_count(values, 3)
         tiebreaker_cards = (
             [three_count_val]
-            + sorted([i for i in values if (i != three_count_val)])
+            + list(reversed(sorted([i for i in values if (i != three_count_val)])))
         )
 
     elif occurrences == [1, 2, 2, 2, 2]: ### Two Pairs
@@ -93,6 +96,7 @@ def rank_hand(hand):
         high_pair_val = find_value_with_count(list(reversed(sorted(values))), 2)
         low_pair_val = find_value_with_count(list(sorted(values)), 2)
         tiebreaker_cards = [high_pair_val] + [low_pair_val] + [find_value_with_count(values, 1)]
+        # print(f"==> DEBUG: {tiebreaker_cards=}")
 
     elif occurrences == [1, 1, 1, 2, 2]: ### One Pair
         print("One Pair")
@@ -101,7 +105,7 @@ def rank_hand(hand):
         two_count_val = find_value_with_count(values, 2)
         tiebreaker_cards = (
             [two_count_val]
-            + sorted([i for i in values if (i != two_count_val)])
+            + list(reversed(sorted([i for i in values if (i != two_count_val)])))
         )
 
     else: ### High Card
@@ -136,10 +140,15 @@ def main():
         hand_2_rank, hand_2_spares = rank_hand(hand_2)
 
         if hand_1_rank == hand_2_rank:
+
+            # if hand_1_rank == 2:
+            #     print(f"==> DEBUG: {hand_1_spares=}")
+            #     print(f"==> DEBUG: {hand_2_spares=}")
+
             for i in range(len(hand_1_spares)): # pylint: disable=consider-using-enumerate
                 if hand_1_spares[i] != hand_2_spares[i]:
                     winner = 1 if (hand_1_spares[i] > hand_2_spares[i]) else 2
-                    print(f"Hand {winner} wins!")
+                    print(f"Hand {winner} wins! (High Card)")
                     break
         else:
             winner = 1 if (hand_1_rank > hand_2_rank) else 2
