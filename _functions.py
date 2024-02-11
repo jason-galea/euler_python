@@ -5,7 +5,7 @@ def reverseString(s):
 # def sqrt(i):
 #     # return i**(1/2)
 #     return i**0.5
-    
+
 def isPrime(i):
     for x in range(2, int(i**0.5) + 1):
         if (i % x == 0):
