@@ -8,7 +8,7 @@ def get_all_combinations_recursive(
     current_combination=None,
 ):
     """
-    For 'n', return list of all combinations of 1..n
+    For `n`, return list of all combinations of `1..n`
     """
 
     # print(f"Entered 'get_all_combinations_recursive()'")
@@ -43,11 +43,15 @@ def get_all_combinations_recursive(
 
 
 def combine_list_of_ints(l: list) -> int:
+    """
+    For list of integers, literally combine without addition into single integer.
+    E.G: `combine_list_of_ints([1,2,3,4])` returns `1234`
+    """
     result: int = 0
     l.reverse()
 
-    for power_of_ten_to_multiple_i_by, i in enumerate(l):
-        result += i * 10**power_of_ten_to_multiple_i_by
+    for power_of_ten_to_multiply_i_by, i in enumerate(l):
+        result += i * 10**power_of_ten_to_multiply_i_by
 
     return result
 
@@ -57,18 +61,13 @@ def main():
     result_products = set()
 
     for pandigital_l in get_all_combinations_recursive(max_digits):
-        # print(f"{pandigital=}")
 
         ### Search for valid "x * y = z" equations within pandigital number
-        valid_split_indices = list( range(1, len(pandigital_l)) ) ### For [1,2,3,4] --> [1,2,3]
-        # print(f"{valid_split_indices=}")
-        # print(f"{valid_split_indices[:-1]=}")
-        # print(f"{valid_split_indices[1:]=}")
+        valid_split_indices = pandigital_l.copy()
+        valid_split_indices.pop() ### [1,2,3,4] --> [1,2,3]
 
         for split_1 in valid_split_indices[:-1]: ### [1,2,3] --> [1,2]
             for split_2 in valid_split_indices[split_1:]: ### [1,2,3] --> [2,3]
-                # print(f"{i=}")
-                # print(f"{j=}")
 
                 product = combine_list_of_ints(pandigital_l[split_2:])
 
@@ -82,7 +81,7 @@ def main():
                     print(f"{multiplicand} * {multiplier} == {product}")
                     result_products.add(product)
 
-    print(f"{result_products=}")
+    # print(f"{result_products=}")
     print(f"Sum of products is {sum(result_products)}")
 
 
