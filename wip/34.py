@@ -37,27 +37,33 @@ def main():
     factorials = [0] * 10
     for i in range(10):
         factorials[i] = factorial(i)
-    # print(factorials)
+    print(factorials)
 
+    ### TODO - track all ints that match length
+    digits_from_length_matched_ints = [0] * 10
+
+    # for i in range(1, 10000):
     for i in range(3, 999_999):     ### NAIVE --> ~3.15 seconds
                                     ### PRECOMP --> ~1.6 seconds
     # for i in range(3, 4_999_999):   ### NAIVE --> ~17.85 seconds
     #                                 ### PRECOMP --> ~9.15 seconds
         ints = int_to_list(i)
-        # ints = int_to_list_str(i)
-        # print(f"{ints=}")
-
         sum_of_factorials = 0
         for j in ints:
-            # sum_of_factorials += factorial(j)
             sum_of_factorials += factorials[j]
         # print(f"Sum of factorials for digits {i} = {sum_of_factorials}")
 
-        # # if len(ints) == len(str(sum_of_factorials)):
-        # #     print(f"{i} has same length of {sum_of_factorials}")
+        ### DEBUG
+        if len(ints) == len(str(sum_of_factorials)):
+            # print(f"{i} has same length of {sum_of_factorials}")
+            for k in ints:
+                digits_from_length_matched_ints[k] += 1
+
 
         if sum_of_factorials == i:
             print(f"Found int equal to sum of factorials: {i}")
+
+    print(f"{digits_from_length_matched_ints=}")
 
 
 if __name__ == "__main__":
